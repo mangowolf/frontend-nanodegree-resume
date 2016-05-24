@@ -151,14 +151,14 @@ var education = {
 		{
 			"title": "Intro to Programming",
 			"school": "Udacity",
-			"dates": 2015,
+			"date": '2015',
 			"url": 'https://www.udacity.com/course/' +
 			'intro-to-programming-nanodegree--nd000'
 		},
 		{
 			"title": "Front-End Programming",
 			"school": "Udacity:",
-			"dates": 2016,
+			"date": '2016',
 			"url": 'https://www.udacity.com/course/' +
 			'front-end-web-developer-nanodegree--nd001'
 		}
@@ -174,7 +174,7 @@ education.display = function(){
 		var formattedDate = HTMLschoolDates.replace("%data%", education.schools[i].dates);
 		var formattedLocation = HTMLschoolLocation.replace("%data%", education.schools[i].location);
 
-		$(".education-entry:last").append(formattedName,formattedDegree,formattedDate,formattedLocation);
+		$(".education-entry:last").append(formattedName + formattedDegree,formattedDate,formattedLocation);
 
 		if(education.schools[i].majors.length){
 			for(var j=0; j<education.schools[i].majors.length; j++){
@@ -184,15 +184,15 @@ education.display = function(){
 		}
 	}
 
-	$(".education-entry:last").append(HTMLonlineClasses);
+	$("#education").append(HTMLonlineClasses);
 		for(var k=0; k<education.onlineCourses.length; k++){
-
+			$("#education").append(HTMLschoolStart);
 			var formattedOnlineTitle = HTMLonlineTitle.replace("%data%", education.onlineCourses[k].title);
 			var formattedOnlineSchool = HTMLonlineSchool.replace("%data%", education.onlineCourses[k].school);
-			var formattedOnlineDates = HTMLonlineDates.replace("%data%", education.onlineCourses[k].dates);
+			var formattedOnlineDates = HTMLonlineDates.replace("%data%", education.onlineCourses[k].date);
 			var formattedOnlineURL = HTMLonlineURL.replace("%data%", education.onlineCourses[k].url);
 
-			$(".education-entry:last").append(formattedOnlineTitle,formattedOnlineSchool,formattedOnlineDates,
+			$(".education-entry:last").append(formattedOnlineTitle + formattedOnlineSchool,formattedOnlineDates,
 				formattedOnlineURL);
 		}
 };
