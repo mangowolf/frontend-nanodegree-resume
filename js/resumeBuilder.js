@@ -151,7 +151,54 @@ var model = {
 	"XML"]
 };*/
 
-model.bio.display = function(){
+var octopus = {
+
+	init: function(){
+		bioView.init();
+	},
+
+	getBio: function(){
+		return model.bio;
+	},
+};
+
+var bioView = {
+
+	init: function(){
+		this.bView = octopus.getBio();
+		this.formattedRole = HTMLheaderRole.replace("%data%", this.bView.role);
+		this.formattedName = HTMLheaderName.replace("%data%", this.bView.name);
+		this.formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", this.bView.welcomeMessage);
+		this.formattedBiopic = HTMLbioPic.replace("%data%", this.bView.biopic);
+		this.formattedMobile = HTMLmobile.replace("%data%", this.bView.contacts.mobile);
+		this.formattedEmail = HTMLemail.replace("%data%", this.bView.contacts.email);
+		this.formattedGithub = HTMLgithub.replace("%data%", this.bView.contacts.github);
+		this.formattedLocation = HTMLlocation.replace("%data%", this.bView.contacts.location);
+
+		this.render();
+	},
+
+	render: function(){
+		$('#header').prepend(this.formattedName, this.formattedRole);
+		$('#header').append(this.formattedWelcomeMsg, this.formattedBiopic);
+		$('#topContacts').append(this.formattedMobile, this.formattedEmail,
+			this.formattedGithub, this.formattedLocation);
+		$('#footerContacts').append(this.formattedMobile, this.formattedEmail,
+			this.formattedGithub, this.formattedLocation);
+
+		if(model.bio.skills.length){
+			$("#header").append(HTMLskillsStart);
+			for(i=0; i < this.bView.skills.length; i++){
+				this.formattedSkill = HTMLskills.replace("%data%", this.bView.skills[i]);
+				$("#skills").append(this.formattedSkill);
+			}
+		}
+	},
+};
+
+octopus.init();
+/*model.bio.display = function(){
+
 	var formattedRole = HTMLheaderRole.replace("%data%", model.bio.role);
 	var formattedName = HTMLheaderName.replace("%data%", model.bio.name);
 	var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", model.bio.welcomeMessage);
@@ -177,7 +224,7 @@ model.bio.display = function(){
 	}
 };
 
-model.bio.display();
+model.bio.display();*/
 
 /*var work = {
 	"jobs": [
