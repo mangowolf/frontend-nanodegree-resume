@@ -155,10 +155,25 @@ var octopus = {
 
 	init: function(){
 		bioView.init();
+		jobView.init();
+		edView.init();
+		projectView.init();
 	},
 
 	getBio: function(){
 		return model.bio;
+	},
+
+	getWork: function(){
+		return model.work;
+	},
+
+	getEd: function(){
+		return model.education;
+	},
+
+	getProjView: function(){
+		return model.projects;
 	},
 };
 
@@ -196,7 +211,7 @@ var bioView = {
 	},
 };
 
-octopus.init();
+
 /*model.bio.display = function(){
 
 	var formattedRole = HTMLheaderRole.replace("%data%", model.bio.role);
@@ -285,7 +300,29 @@ model.bio.display();*/
 	]
 };*/
 
-model.work.display = function(){
+var jobView = {
+
+	init: function(){
+		this.jView = octopus.getWork();
+		this.jView.jobs.forEach(function(job){
+		$('#workExperience').append(HTMLworkStart);
+
+		this.formattedEmployer = HTMLworkEmployer.replace("%data%", job.employer);
+		this.formattedTitle = HTMLworkTitle.replace("%data%", job.title);
+		this.formattedEmployerTitle = formattedEmployer + formattedTitle;
+		this.formattedLocation = HTMLworkLocation.replace("%data%", job.location);
+		this.formattedDatesWorked = HTMLworkDates.replace("%data%", job.dates);
+		this.formattedDescription = HTMLworkDescription.replace("%data%", job.description);
+
+		$(".work-entry:last").append(this.formattedEmployerTitle, this.formattedLocation,
+		this.formattedDatesWorked, this.formattedDescription);
+		});
+
+	},
+};
+
+
+/*model.work.display = function(){
 	model.work.jobs.forEach(function(job){
 		$('#workExperience').append(HTMLworkStart);
 
@@ -300,7 +337,7 @@ model.work.display = function(){
 	});
 };
 
-model.work.display();
+model.work.display();*/
 
 /*var education = {
 
@@ -348,7 +385,47 @@ model.work.display();
 	]
 };*/
 
-model.education.display = function(){
+var edView = {
+
+	init: function(){
+		this.eView = octopus.getEd();
+		var eViewLength = this.eView.schools.length;
+		for(var i=0; i<eViewLength; i++){
+			$("#education").append(HTMLschoolStart);
+
+			this.formattedName = HTMLschoolName.replace("%data%", this.eView.schools[i].name);
+			this.formattedDegree = HTMLschoolDegree.replace("%data%", this.eView.schools[i].degree);
+			this.formattedDate = HTMLschoolDates.replace("%data%", this.eView.schools[i].dates);
+			this.formattedLocation = HTMLschoolLocation.replace("%data%", this.eView.schools[i].location);
+
+			$(".education-entry:last").append(this.formattedName + this.formattedDegree,
+				this.formattedDate,this.formattedLocation);
+
+			if(this.eView.schools[i].majors.length){
+				for(var j=0; j<this.eView.schools[i].majors.length; j++){
+					this.formattedMajor = HTMLschoolMajor.replace("%data%",
+						this.eView.schools[i].majors[j]);
+					$(".education-entry:last").append(this.formattedMajor);
+				}
+			}
+		}
+
+		$("#education").append(HTMLonlineClasses);
+			for(var k=0; k<this.eView.onlineCourses.length; k++){
+				$("#education").append(HTMLschoolStart);
+				this.formattedOnlineTitle = HTMLonlineTitle.replace("%data%", this.eView.onlineCourses[k].title);
+				this.formattedOnlineSchool = HTMLonlineSchool.replace("%data%", this.eView.onlineCourses[k].school);
+				this.formattedOnlineDates = HTMLonlineDates.replace("%data%", this.eView.onlineCourses[k].date);
+				this.formattedOnlineURL = HTMLonlineURL.replace("%data%", this.eView.onlineCourses[k].url);
+
+				$(".education-entry:last").append(this.formattedOnlineTitle +
+					this.formattedOnlineSchool,this.formattedOnlineDates,this.formattedOnlineURL);
+			}
+	}
+};
+
+
+/*model.education.display = function(){
 	for(var i=0; i<model.education.schools.length; i++){
 		$("#education").append(HTMLschoolStart);
 
@@ -380,7 +457,7 @@ model.education.display = function(){
 		}
 };
 
-model.education.display();
+model.education.display();*/
 
 /*var projects = {
 	"projects": [
@@ -408,7 +485,31 @@ function inName(name) {
 
 $('#header').append(internationalizeButton);
 
-model.projects.display = function(){
+var projectView = {
+
+	init: function(){
+		this.pView = octopus.getProjView();
+		var pViewLength = this.pView.projects.length;
+		for(var i=0; i<pViewLength; i++){
+			$('#projects').append(HTMLprojectStart);
+
+			this.formattedTitle = HTMLprojectTitle.replace("%data%", this.pView.projects[i].title);
+			this.formattedDates = HTMLprojectDates.replace("%data%", this.pView.projects[i].dates);
+			this.formattedDescription = HTMLprojectDescription.replace("%data%", this.pView.projects[i].description);
+
+			$(".project-entry:last").append(this.formattedTitle,this.formattedDates,this.formattedDescription);
+
+			if(this.pView.projects[i].images.length){
+				for(var k=0; k<this.pView.projects[i].images.length; k++){
+					this.formattedImage = HTMLprojectImage.replace("%data%", this.pView.projects[i].images[k]);
+					$(".project-entry:last").append(this.formattedImage);
+				}
+			}
+		}
+	}
+
+};
+/*model.projects.display = function(){
 	for(var i=0; i<model.projects.projects.length; i++){
 		$('#projects').append(HTMLprojectStart);
 
@@ -427,6 +528,6 @@ model.projects.display = function(){
 	}
 };
 
-model.projects.display();
-
+model.projects.display();*/
+octopus.init();
 $("#mapDiv").append(googleMap);
